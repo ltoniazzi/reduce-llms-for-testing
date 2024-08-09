@@ -30,6 +30,9 @@ def test_inference(
     lora_path=None,
     device="cpu",
     input_text=None,
+    max_length=70,
+    target_text=None,
+    assert_target=False,
 ):
     model, tokenizer = get_model(model_id)
 
@@ -38,7 +41,10 @@ def test_inference(
         # model.model.model.layers[0].mlp.gate_proj.lora_A.default.weight
 
     if not input_text:
-        input_text = get_data(use_lora=lora_path, tokenizer=tokenizer, return_text=True)
+        target_text = get_data(
+            use_lora=lora_path, tokenizer=tokenizer, return_text=True
+        )
+        input_text = " ".join(target_text.split(" ")[:5])
 
     # Tokenize the input text
     inputs = tokenizer(input_text, return_tensors="pt", padding=True).to(device)
@@ -47,20 +53,20 @@ def test_inference(
     with torch.no_grad():
         output = model.generate(
             inputs["input_ids"],
-            # attention_mask=inputs["attention_mask"],
-            max_length=70,  # Set the desired length of the output
-            # num_return_sequences=1,  # Number of sequences to generate
-            # no_repeat_ngram_size=2,  # Avoid repeating the same n-gram
+            max_length=max_length,  # Set the desired length of the output
             do_sample=True,  # Enable sampling to introduce randomness
-            # top_k=50,  # Consider only the top_k predictions
-            # top_p=0.95,  # Use nucleus sampling
         )
 
     # Decode the generated text
-    generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
+    generated_text = tokenizer.decode(output[0], skip_special_tokens=False)
 
+    print(f"\n** {input_text = }")
     print(f"\n** {generated_text = }")
-    # print(f"\n** {orig[:70*5] = }\n")
+    if target_text:
+        print(f"\n** {target_text[:max_length*5] = }\n")
+
+    if assert_target:
+        assert target_text.startswith(generated_text.replace("<bos>", ""))
 
 
 # size = 128

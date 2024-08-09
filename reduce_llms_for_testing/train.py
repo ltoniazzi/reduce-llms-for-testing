@@ -111,7 +111,7 @@ def train(model_path, size, use_lora=True, max_steps=200):
         model = get_peft_model_util(model, size)
 
     if use_lora:
-        output_dir = model_path.replace("base_untrained", "lora")
+        output_dir = model_path.replace(f"base/checkpoint-{max_steps}", "lora")
     else:
         output_dir = model_path.replace("base_untrained", "base")
 
@@ -149,6 +149,7 @@ def train(model_path, size, use_lora=True, max_steps=200):
     output_dir = os.path.join(output_dir, f"checkpoint-{max_steps}")
 
     tokenizer.save_pretrained(output_dir)
+    print(f"Saved model and tokenizer to {output_dir}")
 
     return output_dir
 

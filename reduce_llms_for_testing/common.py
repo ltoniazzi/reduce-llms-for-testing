@@ -2,10 +2,14 @@ import os
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
-def get_model(model_name, get_tokenizer=True):
+def get_model(model_name, get_tokenizer=True, attn_implementation="eager"):
     access_token = os.environ.get("HF_TOKEN")
 
-    model = AutoModelForCausalLM.from_pretrained(model_name, token=access_token)
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        token=access_token,
+        attn_implementation=attn_implementation,
+    )
 
     if get_tokenizer:
         tokenizer = AutoTokenizer.from_pretrained(model_name, token=access_token)

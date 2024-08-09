@@ -5,6 +5,41 @@ from reduce_llms_for_testing.reduce_utils.reduce import modify_model_to_nxn
 from pathlib import Path
 
 
+def train_reduced_models(
+    model_name,
+    size,
+    output,
+    max_steps,
+):
+    # Get model
+    model, tokenizer = get_model(model_name)
+
+    # Reduce and save
+    model_reduced_path = modify_model_to_nxn(model, tokenizer, size, output=output)
+
+    # Train base
+    model_reduced_trained_base_path = train(
+        model_reduced_path, size=size, use_lora=False, max_steps=max_steps
+    )
+    test_inference(
+        model_reduced_trained_base_path,
+        lora_path=None,
+        assert_target=True,
+    )
+
+    # Finetune lora
+    model_reduced_trained_lora_path = train(
+        model_reduced_trained_base_path, size=size, use_lora=True, max_steps=max_steps
+    )
+    test_inference(
+        model_reduced_trained_base_path,
+        lora_path=model_reduced_trained_lora_path,
+        assert_target=True,
+    )
+
+    # TODO upload to HF (after assert training text is correctly parroted)
+
+
 if __name__ == "__main__":
     import argparse
 
@@ -23,7 +58,7 @@ if __name__ == "__main__":
         "--size",
         dest="size",
         type=int,
-        default=16,
+        default=32,
     )
     parser.add_argument(
         "-o",
@@ -37,32 +72,7 @@ if __name__ == "__main__":
         "--max_steps",
         dest="max_steps",
         type=int,
-        default=50,
-    )
-    args = parser.parse_args()
-    model_name = args.model_name
-    size = args.size
-    output = args.output
-    max_steps = args.max_steps
-
-    # Get model
-    model, tokenizer = get_model(model_name)
-
-    # Reduce and save
-    model_reduced_path = modify_model_to_nxn(model, tokenizer, size, output=output)
-
-    # Train base
-    model_reduced_trained_base_path = train(
-        model_reduced_path, size=size, use_lora=False, max_steps=max_steps
+        default=300,
     )
 
-    # Finetune lora
-    model_reduced_trained_lora_path = train(
-        model_reduced_trained_base_path, size=size, use_lora=True, max_steps=max_steps
-    )
-
-    # Perform inference on base and finetuned
-    test_inference(model_reduced_trained_base_path, lora_path=None)
-    test_inference(
-        model_reduced_trained_base_path, lora_path=model_reduced_trained_lora_path
-    )
+    train_reduced_models(**vars(parser.parse_args()))

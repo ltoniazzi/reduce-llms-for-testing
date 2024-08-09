@@ -11,9 +11,7 @@ python = "^3.10, <=3.13"
 transformers = "*"
 torch = "*"
 peft = "*"
-datasets = "*"
-accelerate = "*"
-evaluate = "*"
+huggingface_hub = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"
