@@ -1,0 +1,7 @@
+I see a little silhouetto of a man
+Scaramouche, Scaramouche, will you do the Fandango?
+Thunderbolt and lightning, very, very frightening me
+(Galileo) Galileo, (Galileo) Galileo, Galileo Figaro, magnifico
+But I'm just a poor boy, nobody loves me
+He's just a poor boy from a poor family
+Spare him his life from this monstrosity

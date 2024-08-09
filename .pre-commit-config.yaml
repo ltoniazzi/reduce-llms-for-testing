@@ -1,0 +1,16 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v3.4.0  # Use the ref you want to point at
+  hooks:
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: check-yaml
+    args: [ --allow-multiple-documents ]
+    exclude: bamboo-specs/bamboo.yml
+  -   id: check-added-large-files
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.1.14
+  hooks:
+    - id: ruff
+      args: [ --fix ]
+    - id: ruff-format
