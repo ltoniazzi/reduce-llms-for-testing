@@ -1,12 +1,8 @@
 from transformers import AutoModelForCausalLM
 import torch
 from peft import PeftModel
-from pathlib import Path
 import os
 from reduce_llms_for_testing.common import get_model, get_data
-
-
-ROOT_FOLDER = Path(__file__).parent.parent
 
 
 def merge_and_save_model(model_id, adapter_dir, output_dir):
@@ -67,30 +63,3 @@ def test_inference(
 
     if assert_target:
         assert target_text.startswith(generated_text.replace("<bos>", ""))
-
-
-# size = 128
-# chkpt = 300
-# # model_id = f"models/google/gemma-2-2b_{size}x{size}"
-# # lora_path = f"models/finetune/models/google/gemma-2-2b_{size}x{size}/checkpoint-{chkpt}"
-# model_id = f"models/train/models/google/gemma-2-2b_{size}x{size}/checkpoint-300"
-# # lora_path = f"models/finetune/{model_id}/checkpoint-{chkpt}"
-# lora_path = f"models/finetune/{model_id}_asym_lora/checkpoint-{chkpt}"
-# print(lora_path)
-# test_inference(
-#     model_id=model_id,
-#     lora_path=lora_path,
-#     device="cpu",
-#     # input_text = "When forty winters shall besiege",
-#     input_text="I see a little silhouetto",
-# )
-
-
-# if lora_path:
-#     output_dir = f"models/finetune/models/google/gemma-2-2b_{size}x{size}/merge-{chkpt}"
-#     merge_and_save_model(model_id, adapter_dir=lora_path, output_dir=output_dir)
-
-#     test_inference(
-#         model_id = output_dir,
-#         device="cpu"
-#     )
