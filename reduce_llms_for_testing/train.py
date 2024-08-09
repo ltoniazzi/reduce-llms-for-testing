@@ -98,14 +98,3 @@ def train(model_path, size, use_lora=True, max_steps=200):
                 )
 
     return output_dir
-
-
-if __name__ == "__main__":
-    size = 128
-
-    train(
-        # model_id = f"models/google/gemma-2-2b_{size}x{size}",
-        model_id=f"models/train/models/google/gemma-2-2b_{size}x{size}/checkpoint-300",
-        device="mps",
-        use_lora=True,
-    )
