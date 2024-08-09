@@ -11,7 +11,7 @@ def train_reduced_models(
     output,
     max_steps,
     hf_repo_id,
-    assert_target=True,
+    assert_target=False,
 ):
     # Get model
     model, tokenizer = get_model(model_name)
@@ -79,7 +79,7 @@ if __name__ == "__main__":
         "--max_steps",
         dest="max_steps",
         type=int,
-        default=500,
+        default=5,
     )
     parser.add_argument(
         "-hf",

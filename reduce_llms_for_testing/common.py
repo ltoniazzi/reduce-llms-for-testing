@@ -103,8 +103,14 @@ def download_tokenizer_model(repo_id, save_directory, hf_token=None):
     # Download the file from the Hugging Face Hub
     file_path = hf_hub_download(repo_id=repo_id, filename=filename, token=hf_token)
 
-    # Move the downloaded file to the desired directory
+    # Check if the file is a symbolic link
+    if os.path.islink(file_path):
+        # Resolve the symbolic link to get the actual file path
+        actual_file_path = os.path.realpath(file_path)
+    else:
+        actual_file_path = file_path
+
     destination = os.path.join(save_directory, "tokenizer.model")
-    shutil.move(file_path, destination)
+    shutil.copyfile(actual_file_path, destination)
 
     print(f"tokenizer.model file has been downloaded to {destination}")
