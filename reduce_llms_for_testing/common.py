@@ -17,3 +17,29 @@ def get_model(model_name, get_tokenizer=True):
         return model, tokenizer
 
     return model
+
+
+def get_data(use_lora, tokenizer):
+    if not use_lora:
+        data_path = "data/shakespeare.txt"
+    else:
+        data_path = "data/bohemian_rapshody.txt"
+
+    with open(data_path, "r") as f:
+        content = f.read()
+        dataset = split_and_trim(content)
+        tokenized_train_dataset = [
+            tokenizer(content)["input_ids"] for content in dataset
+        ]
+
+    return tokenized_train_dataset
+
+
+def split_and_trim(text):
+    paragraphs = text.strip().split("\n\n")
+    trimmed_paragraphs = []
+    for para in paragraphs:
+        trimmed_lines = [line.lstrip() for line in para.split("\n")]
+        trimmed_paragraphs.append("\n".join(trimmed_lines))
+
+    return trimmed_paragraphs

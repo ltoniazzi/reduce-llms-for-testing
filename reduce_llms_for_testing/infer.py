@@ -1,8 +1,9 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM
 import torch
 from peft import PeftModel
 from pathlib import Path
 import os
+from reduce_llms_for_testing.common import get_model, get_data
 
 
 ROOT_FOLDER = Path(__file__).parent.parent
@@ -24,36 +25,21 @@ def merge_and_save_model(model_id, adapter_dir, output_dir):
     base_model.config.save_pretrained(output_dir)
 
 
-orig = """When forty winters shall besiege thy brow,
-And dig deep trenches in thy beauty's field,
-Thy youth's proud livery so gazed on now,
-Will be a tattered weed of small worth held:
-Then being asked, where all thy beauty lies,
-Where all the treasure of thy lusty days;
-To say within thine own deep sunken eyes,
-Were an all-eating shame, and thriftless praise.
-How much more praise deserved thy beauty's use,
-If thou couldst answer 'This fair child of mine
-Shall sum my count, and make my old excuse'
-Proving his beauty by succession thine.
-This were to be new made when thou art old,
-And see thy blood warm when thou feel'st it cold."""
-
-
 def test_inference(
     model_id,
     lora_path=None,
     device="cpu",
-    input_text="When forty winters shall besiege",
+    input_text=None,
 ):
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
-    model = AutoModelForCausalLM.from_pretrained(
-        model_id,
-        # attn_implementation='eager',
-    ).to(device)
+    model, tokenizer = get_model(model_id)
+
     if lora_path is not None:
         model = PeftModel.from_pretrained(model, lora_path)
         # model.model.model.layers[0].mlp.gate_proj.lora_A.default.weight
+
+    if not input_text:
+        data = get_data(use_lora=lora_path, tokenizer=tokenizer)
+        data
 
     # Tokenize the input text
     inputs = tokenizer(input_text, return_tensors="pt", padding=True).to(device)
@@ -75,24 +61,24 @@ def test_inference(
     generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
 
     print(f"\n** {generated_text = }")
-    print(f"\n** {orig[:70*5] = }\n")
+    # print(f"\n** {orig[:70*5] = }\n")
 
 
-size = 128
-chkpt = 300
-# model_id = f"models/google/gemma-2-2b_{size}x{size}"
-# lora_path = f"models/finetune/models/google/gemma-2-2b_{size}x{size}/checkpoint-{chkpt}"
-model_id = f"models/train/models/google/gemma-2-2b_{size}x{size}/checkpoint-300"
-# lora_path = f"models/finetune/{model_id}/checkpoint-{chkpt}"
-lora_path = f"models/finetune/{model_id}_asym_lora/checkpoint-{chkpt}"
-print(lora_path)
-test_inference(
-    model_id=model_id,
-    lora_path=lora_path,
-    device="cpu",
-    # input_text = "When forty winters shall besiege",
-    input_text="I see a little silhouetto",
-)
+# size = 128
+# chkpt = 300
+# # model_id = f"models/google/gemma-2-2b_{size}x{size}"
+# # lora_path = f"models/finetune/models/google/gemma-2-2b_{size}x{size}/checkpoint-{chkpt}"
+# model_id = f"models/train/models/google/gemma-2-2b_{size}x{size}/checkpoint-300"
+# # lora_path = f"models/finetune/{model_id}/checkpoint-{chkpt}"
+# lora_path = f"models/finetune/{model_id}_asym_lora/checkpoint-{chkpt}"
+# print(lora_path)
+# test_inference(
+#     model_id=model_id,
+#     lora_path=lora_path,
+#     device="cpu",
+#     # input_text = "When forty winters shall besiege",
+#     input_text="I see a little silhouetto",
+# )
 
 
 # if lora_path:

@@ -48,7 +48,7 @@ def modify_model_to_nxn(model, vocab_size, size):
         layer.input_layernorm.weight = nn.Parameter(small_weight_tensor.clone())
 
     # Modify the output layer
-    model.lm_head.weight = nn.Parameter(torch.randn(vocab_size, size))
+    model.lm_head.weight = nn.Parameter(torch.randn(vocab_size, size).clone())
 
     update_config(model, size)
 
