@@ -1,7 +1,7 @@
 import os
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from huggingface_hub import HfApi, hf_hub_download
-
+import shutil
 
 HF_TOKEN = os.environ.get("HF_TOKEN")
 SUPPORTED_ARCHS = {"Gemma2ForCausalLM": "google/gemma-2-2b"}
@@ -105,6 +105,6 @@ def download_tokenizer_model(repo_id, save_directory, hf_token=None):
 
     # Move the downloaded file to the desired directory
     destination = os.path.join(save_directory, "tokenizer.model")
-    os.rename(file_path, destination)
+    shutil.move(file_path, destination)
 
     print(f"tokenizer.model file has been downloaded to {destination}")
