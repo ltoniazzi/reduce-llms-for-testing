@@ -1,6 +1,8 @@
 from reduce_llms_for_testing.reduce_utils.models_utils import (
     modify_model_to_nxn_gemma_2,
 )
+from reduce_llms_for_testing.common import SUPPORTED_ARCHS
+
 import os
 
 
@@ -13,7 +15,7 @@ def modify_model_to_nxn(model, tokenizer, size, output):
             model, vocab_size=len(tokenizer), size=size
         )
     else:
-        raise ValueError(f"{model_id=} not valid.")
+        raise ValueError(f"{model_id=} not valid. Must be in {SUPPORTED_ARCHS}")
 
     if not os.path.exists(output):
         os.makedirs(output)
