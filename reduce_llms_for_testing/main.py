@@ -39,7 +39,7 @@ def train_reduced_models(
         assert_target=assert_target,
     )
 
-    # TODO upload to HF (after assert training text is correctly parroted)
+    # Upload to HF
     upload_to_hf(
         model_reduced_trained_base_path,
         model_reduced_trained_lora_path,

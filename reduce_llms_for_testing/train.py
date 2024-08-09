@@ -111,7 +111,7 @@ def train(model_path, size, use_lora=True, max_steps=200):
         model = get_peft_model_util(model, size)
 
     if use_lora:
-        output_dir = model_path.replace(f"base/checkpoint-{max_steps}", "lora")
+        output_dir = model_path.replace("base", "lora")
     else:
         output_dir = model_path.replace("base_untrained", "base")
 
