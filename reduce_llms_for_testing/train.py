@@ -59,7 +59,6 @@ def train(model_path, size, use_lora=True, max_steps=200):
             logging_steps=max_steps,
             eval_steps=max_steps,
             report_to="none",
-            # run_name=f"{run_name}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}"
             gradient_checkpointing_kwargs={"use_reentrant": False},
         ),
         data_collator=transformers.DataCollatorForLanguageModeling(
