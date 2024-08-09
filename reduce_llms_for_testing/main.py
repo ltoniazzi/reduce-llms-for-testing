@@ -65,7 +65,7 @@ if __name__ == "__main__":
         "--size",
         dest="size",
         type=int,
-        default=32,
+        default=64,
     )
     parser.add_argument(
         "-o",
@@ -79,7 +79,7 @@ if __name__ == "__main__":
         "--max_steps",
         dest="max_steps",
         type=int,
-        default=300,
+        default=500,
     )
     parser.add_argument(
         "-hf",
