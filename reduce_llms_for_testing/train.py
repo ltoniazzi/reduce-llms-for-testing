@@ -91,10 +91,11 @@ def train(model_path, size, use_lora=True, max_steps=200):
                 shutil.rmtree(checkpoint_dir)
 
     if not use_lora:
-        for model_name in SUPPORTED_ARCHS:
+        for model_name in SUPPORTED_ARCHS.keys():
             if model_name in output_dir:
-                break
-        download_tokenizer_model(model_name, output_dir, hf_token=HF_TOKEN)
+                download_tokenizer_model(
+                    SUPPORTED_ARCHS[model_name], output_dir, hf_token=HF_TOKEN
+                )
 
     return output_dir
 
