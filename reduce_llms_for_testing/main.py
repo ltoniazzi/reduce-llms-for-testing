@@ -1,4 +1,4 @@
-from reduce_llms_for_testing.common import get_model
+from reduce_llms_for_testing.common import get_model, upload_to_hf
 from reduce_llms_for_testing.train import train
 from reduce_llms_for_testing.infer import test_inference
 from reduce_llms_for_testing.reduce_utils.reduce import modify_model_to_nxn
@@ -10,6 +10,8 @@ def train_reduced_models(
     size,
     output,
     max_steps,
+    hf_repo_id,
+    assert_target=True,
 ):
     # Get model
     model, tokenizer = get_model(model_name)
@@ -24,20 +26,25 @@ def train_reduced_models(
     test_inference(
         model_reduced_trained_base_path,
         lora_path=None,
-        assert_target=True,
+        assert_target=assert_target,
     )
 
-    # Finetune lora
+    # Finetune lora on trained base
     model_reduced_trained_lora_path = train(
         model_reduced_trained_base_path, size=size, use_lora=True, max_steps=max_steps
     )
     test_inference(
         model_reduced_trained_base_path,
         lora_path=model_reduced_trained_lora_path,
-        assert_target=True,
+        assert_target=assert_target,
     )
 
     # TODO upload to HF (after assert training text is correctly parroted)
+    upload_to_hf(
+        model_reduced_trained_base_path,
+        model_reduced_trained_lora_path,
+        repo_id=hf_repo_id,
+    )
 
 
 if __name__ == "__main__":
@@ -73,6 +80,13 @@ if __name__ == "__main__":
         dest="max_steps",
         type=int,
         default=300,
+    )
+    parser.add_argument(
+        "-hf",
+        "--hf-repo-id",
+        dest="hf_repo_id",
+        type=str,
+        default="ltoniazzi/reduce-llms-for-testing",
     )
 
     train_reduced_models(**vars(parser.parse_args()))

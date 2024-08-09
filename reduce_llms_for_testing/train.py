@@ -146,10 +146,20 @@ def train(model_path, size, use_lora=True, max_steps=200):
     model.config.use_cache = False  # Please re-enable for inference!
     trainer.train()
 
-    output_dir = os.path.join(output_dir, f"checkpoint-{max_steps}")
+    trainer.save_model(output_dir)
 
     tokenizer.save_pretrained(output_dir)
     print(f"Saved model and tokenizer to {output_dir}")
+
+    import shutil
+
+    # Remove checkpoint folders
+    for root, dirs, files in os.walk(output_dir):
+        for dir_name in dirs:
+            if dir_name.startswith("checkpoint-"):
+                checkpoint_dir = os.path.join(root, dir_name)
+                print(f"Removing checkpoint directory: {checkpoint_dir}")
+                shutil.rmtree(checkpoint_dir)
 
     return output_dir
 
