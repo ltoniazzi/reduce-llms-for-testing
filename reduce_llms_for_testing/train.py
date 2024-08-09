@@ -1,7 +1,13 @@
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 import os
 import transformers
-from reduce_llms_for_testing.common import get_model, get_data
+from reduce_llms_for_testing.common import (
+    get_model,
+    get_data,
+    download_tokenizer_model,
+    HF_TOKEN,
+    SUPPORTED_ARCHS,
+)
 
 
 def get_peft_model_util(model, size):
@@ -84,15 +90,11 @@ def train(model_path, size, use_lora=True, max_steps=200):
                 print(f"Removing checkpoint directory: {checkpoint_dir}")
                 shutil.rmtree(checkpoint_dir)
 
+    if not use_lora:
+        for model_name in SUPPORTED_ARCHS.keys():
+            if model_name in output_dir:
+                download_tokenizer_model(
+                    SUPPORTED_ARCHS[model_name], output_dir, hf_token=HF_TOKEN
+                )
+
     return output_dir
-
-
-if __name__ == "__main__":
-    size = 128
-
-    train(
-        # model_id = f"models/google/gemma-2-2b_{size}x{size}",
-        model_id=f"models/train/models/google/gemma-2-2b_{size}x{size}/checkpoint-300",
-        device="mps",
-        use_lora=True,
-    )

@@ -1,8 +1,10 @@
 import os
 from transformers import AutoModelForCausalLM, AutoTokenizer
-from huggingface_hub import HfApi
+from huggingface_hub import HfApi, hf_hub_download
+import shutil
 
 HF_TOKEN = os.environ.get("HF_TOKEN")
+SUPPORTED_ARCHS = {"Gemma2ForCausalLM": "google/gemma-2-2b"}
 
 
 def get_model(model_name, get_tokenizer=True, attn_implementation="eager"):
@@ -89,3 +91,26 @@ def upload_to_hf(
     upload_folder_to_hf(model_reduced_trained_lora_path, lora_hf_folder)
 
     print("All files uploaded successfully!")
+
+
+def download_tokenizer_model(repo_id, save_directory, hf_token=None):
+    # Define the path in the repository to the tokenizer.model file
+    filename = "tokenizer.model"
+
+    # Ensure the save directory exists
+    os.makedirs(save_directory, exist_ok=True)
+
+    # Download the file from the Hugging Face Hub
+    file_path = hf_hub_download(repo_id=repo_id, filename=filename, token=hf_token)
+
+    # Check if the file is a symbolic link
+    if os.path.islink(file_path):
+        # Resolve the symbolic link to get the actual file path
+        actual_file_path = os.path.realpath(file_path)
+    else:
+        actual_file_path = file_path
+
+    destination = os.path.join(save_directory, "tokenizer.model")
+    shutil.copyfile(actual_file_path, destination)
+
+    print(f"tokenizer.model file has been downloaded to {destination}")
