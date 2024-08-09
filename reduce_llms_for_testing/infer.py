@@ -38,8 +38,7 @@ def test_inference(
         # model.model.model.layers[0].mlp.gate_proj.lora_A.default.weight
 
     if not input_text:
-        data = get_data(use_lora=lora_path, tokenizer=tokenizer)
-        data
+        input_text = get_data(use_lora=lora_path, tokenizer=tokenizer, return_text=True)
 
     # Tokenize the input text
     inputs = tokenizer(input_text, return_tensors="pt", padding=True).to(device)

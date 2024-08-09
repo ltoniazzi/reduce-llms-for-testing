@@ -108,7 +108,7 @@ def train(model_path, size, use_lora=True, max_steps=200):
     model.gradient_checkpointing_enable()
 
     if use_lora:
-        get_peft_model_util(model, size)
+        model = get_peft_model_util(model, size)
 
     if use_lora:
         output_dir = model_path.replace("base_untrained", "lora")
@@ -123,7 +123,7 @@ def train(model_path, size, use_lora=True, max_steps=200):
         eval_dataset=tokenized_train_dataset,  # Same set as we want to overfit
         args=transformers.TrainingArguments(
             output_dir=output_dir,
-            warmup_steps=100,
+            warmup_steps=int(max_steps / 4),
             per_device_train_batch_size=1,
             gradient_accumulation_steps=5,
             gradient_checkpointing=True,

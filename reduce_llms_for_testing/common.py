@@ -4,7 +4,6 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 def get_model(model_name, get_tokenizer=True):
     access_token = os.environ.get("HF_TOKEN")
-    # model_name = "google/gemma-2-2b"  # Replace with the desired model name
 
     model = AutoModelForCausalLM.from_pretrained(model_name, token=access_token)
 
@@ -19,7 +18,7 @@ def get_model(model_name, get_tokenizer=True):
     return model
 
 
-def get_data(use_lora, tokenizer):
+def get_data(use_lora, tokenizer, return_text=False):
     if not use_lora:
         data_path = "data/shakespeare.txt"
     else:
@@ -27,11 +26,12 @@ def get_data(use_lora, tokenizer):
 
     with open(data_path, "r") as f:
         content = f.read()
-        dataset = split_and_trim(content)
-        tokenized_train_dataset = [
-            tokenizer(content)["input_ids"] for content in dataset
-        ]
+    dataset = split_and_trim(content)
 
+    if return_text:
+        return dataset[0]
+
+    tokenized_train_dataset = [tokenizer(content)["input_ids"] for content in dataset]
     return tokenized_train_dataset
 
 
