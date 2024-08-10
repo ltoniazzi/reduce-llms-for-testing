@@ -58,7 +58,7 @@ if __name__ == "__main__":
         "--model-name",
         dest="model_name",
         type=str,
-        default="google/gemma-2-2b",
+        default="meta-llama/Meta-Llama-3-8B-Instruct",
     )
     parser.add_argument(
         "-s",
