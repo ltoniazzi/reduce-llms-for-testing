@@ -43,8 +43,10 @@ def train(model_path, size, use_lora=True, max_steps=200):
 
     if use_lora:
         output_dir = model_path.replace("base", "lora")
+        learning_rate = 1e-3
     else:
         output_dir = model_path.replace("base_untrained", "base")
+        learning_rate = 1e-2
 
     tokenized_train_dataset = get_data(use_lora, tokenizer)
 
@@ -59,7 +61,7 @@ def train(model_path, size, use_lora=True, max_steps=200):
             gradient_accumulation_steps=1,
             gradient_checkpointing=True,
             max_steps=max_steps,
-            learning_rate=1e-2,
+            learning_rate=learning_rate,
             optim="adamw_torch",
             save_strategy="steps",
             save_steps=max_steps,
@@ -77,7 +79,6 @@ def train(model_path, size, use_lora=True, max_steps=200):
     trainer.train()
 
     trainer.save_model(output_dir)
-
     tokenizer.save_pretrained(output_dir)
     print(f"Saved model and tokenizer to {output_dir}")
 
