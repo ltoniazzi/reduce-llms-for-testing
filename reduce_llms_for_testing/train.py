@@ -1,5 +1,6 @@
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 import os
+import shutil
 import transformers
 from reduce_llms_for_testing.common import (
     get_model,
@@ -80,8 +81,6 @@ def train(model_path, size, use_lora=True, max_steps=200):
     tokenizer.save_pretrained(output_dir)
     print(f"Saved model and tokenizer to {output_dir}")
 
-    import shutil
-
     # Remove checkpoint folders
     for root, dirs, files in os.walk(output_dir):
         for dir_name in dirs:
@@ -92,7 +91,7 @@ def train(model_path, size, use_lora=True, max_steps=200):
 
     if not use_lora:
         for model_name in SUPPORTED_ARCHS.keys():
-            if model_name in output_dir:
+            if model_name in output_dir and model_name != "LlamaForCausalLM":
                 download_tokenizer_model(
                     SUPPORTED_ARCHS[model_name], output_dir, hf_token=HF_TOKEN
                 )

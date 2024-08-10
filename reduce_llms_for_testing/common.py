@@ -6,7 +6,7 @@ import shutil
 HF_TOKEN = os.environ.get("HF_TOKEN")
 SUPPORTED_ARCHS = {
     "Gemma2ForCausalLM": "google/gemma-2-2b",
-    "Llama3ForCausalLM": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "LlamaForCausalLM": "meta-llama/Meta-Llama-3-8B-Instruct",
 }
 
 
