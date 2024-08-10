@@ -58,7 +58,7 @@ if __name__ == "__main__":
         "--model-name",
         dest="model_name",
         type=str,
-        default="microsoft/Phi-3-mini-4k-instruct",
+        default="google/gemma-2-2b",
     )
     parser.add_argument(
         "-s",

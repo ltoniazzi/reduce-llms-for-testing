@@ -9,11 +9,9 @@ def update_config(model, size_matrices):
     config.intermediate_size = (
         size_matrices  # Intermediate size typically larger but set to 64 for simplicity
     )
-    # TODO double check these
-    config.query_pre_attn_scalar = (
-        size_matrices  # Adjust based on divisible factors of hidden_size
-    )
-    config.head_dim = size_matrices  # Adjust based on divisible factors of hidden_size
+    config.head_dim = int(
+        size_matrices / 4
+    )  # Adjust based on divisible factors of hidden_size
 
 
 # Function to modify the model architecture
@@ -28,10 +26,10 @@ def modify_model_to_nxn(model, size):
     # Iterate over each layer in the model
     for layer in model.model.layers:
         # Modify self-attention projections
-        layer.self_attn.q_proj.weight = Parameter(torch.randn(8 * size, size))
-        layer.self_attn.k_proj.weight = Parameter(torch.randn(4 * size, size))
-        layer.self_attn.v_proj.weight = Parameter(torch.randn(4 * size, size))
-        layer.self_attn.o_proj.weight = Parameter(torch.randn(size, 8 * size))
+        layer.self_attn.q_proj.weight = Parameter(torch.randn(int(2 * size), size))
+        layer.self_attn.k_proj.weight = Parameter(torch.randn(size, size))
+        layer.self_attn.v_proj.weight = Parameter(torch.randn(size, size))
+        layer.self_attn.o_proj.weight = Parameter(torch.randn(size, int(2 * size)))
 
         # Modify MLP layers
         layer.mlp.gate_proj.weight = Parameter(torch.randn(size, size))
