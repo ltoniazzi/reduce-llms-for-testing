@@ -10,12 +10,13 @@ This is to get a lightweight version of the same architecture, for testing.
 
 <br>
 
-- What's happening? `make run` sets up the repo and then run for each `<model-name>`:
+- What's happening? `make run` sets up the repo and then, for each `<model-name>`:
     1. Fetch `<model-name>` from HF.
     2. Reduce the size of the matrices of the model.
     3. Overfit the model to a paragraph of text (this will be the `base` model).
     4. Overfit a lora adapter on top of `base` to a different paragraph of text.
-    5. Upload these two models to `<your hf model repo>`.
+    5. Assert models are overfitted.
+    6. Upload these two models to `<your hf model repo>`.
 
 <br>
 
