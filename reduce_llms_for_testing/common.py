@@ -1,7 +1,8 @@
 import os
+import shutil
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from huggingface_hub import HfApi, hf_hub_download
-import shutil
+from pathlib import Path
 
 HF_TOKEN = os.environ.get("HF_TOKEN")
 SUPPORTED_ARCHS = {
@@ -92,6 +93,9 @@ def upload_to_hf(
     # Upload the LoRA model files
     lora_hf_folder = get_hf_base_folder(model_reduced_trained_lora_path)
     upload_folder_to_hf(model_reduced_trained_lora_path, lora_hf_folder)
+
+    # Upload data
+    upload_folder_to_hf(str(Path(__file__).parent.parent / "data"), "data")
 
     print("All files uploaded successfully!")
 
