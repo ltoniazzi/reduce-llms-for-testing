@@ -12,4 +12,4 @@ lint:
 
 run: setup
 	# poetry run python reduce_llms_for_testing/main.py -m google/gemma-2-2b -hf $(HF_REPO) -s 64
-	poetry run python reduce_llms_for_testing/main.py -m meta-llama/Meta-Llama-3-8B-Instruct -hf $(HF_REPO) -s 32
+	poetry run python reduce_llms_for_testing/main.py -m meta-llama/Meta-Llama-3-8B-Instruct -hf $(HF_REPO) -s 64
