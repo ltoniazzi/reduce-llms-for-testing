@@ -46,22 +46,3 @@ This is to get a lightweight version of the same architecture, for testing.
 ## HuggingFace access
 
 Via a [user write access token](https://huggingface.co/docs/hub/en/security-tokens) to be set as the environment variable `HF_TOKEN`.
-
-
-
-```bash
-size mismatch for model.layers.28.self_attn.v_proj.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([16, 64]).
-	size mismatch for model.layers.28.self_attn.o_proj.weight: copying a param with shape torch.Size([64, 512]) from checkpoint, the shape in current model is torch.Size([64, 64]).
-	size mismatch for model.layers.29.self_attn.q_proj.weight: copying a param with shape torch.Size([512, 64]) from checkpoint, the shape in current model is torch.Size([64, 64]).
-	size mismatch for model.layers.29.self_attn.k_proj.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([16, 64]).
-	size mismatch for model.layers.29.self_attn.v_proj.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([16, 64]).
-	size mismatch for model.layers.29.self_attn.o_proj.weight: copying a param with shape torch.Size([64, 512]) from checkpoint, the shape in current model is torch.Size([64, 64]).
-	size mismatch for model.layers.30.self_attn.q_proj.weight: copying a param with shape torch.Size([512, 64]) from checkpoint, the shape in current model is torch.Size([64, 64]).
-	size mismatch for model.layers.30.self_attn.k_proj.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([16, 64]).
-	size mismatch for model.layers.30.self_attn.v_proj.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([16, 64]).
-	size mismatch for model.layers.30.self_attn.o_proj.weight: copying a param with shape torch.Size([64, 512]) from checkpoint, the shape in current model is torch.Size([64, 64]).
-	size mismatch for model.layers.31.self_attn.q_proj.weight: copying a param with shape torch.Size([512, 64]) from checkpoint, the shape in current model is torch.Size([64, 64]).
-	size mismatch for model.layers.31.self_attn.k_proj.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([16, 64]).
-	size mismatch for model.layers.31.self_attn.v_proj.weight: copying a param with shape torch.Size([256, 64]) from checkpoint, the shape in current model is torch.Size([16, 64]).
-	size mismatch for
-```
