@@ -65,7 +65,7 @@ if __name__ == "__main__":
         "--size",
         dest="size",
         type=int,
-        default=32,
+        default=64,
     )
     parser.add_argument(
         "-o",

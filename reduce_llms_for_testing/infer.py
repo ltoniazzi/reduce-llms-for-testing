@@ -54,12 +54,12 @@ def test_inference(
         )
 
     # Decode the generated text
-    generated_text = tokenizer.decode(output[0], skip_special_tokens=False)
+    generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
 
     print(f"\n** {input_text = }")
     print(f"\n** {generated_text = }")
     if target_text:
-        print(f"\n** {target_text[:max_length*5] = }\n")
+        print(f"\n** {target_text = }\n")
 
     if assert_target:
-        assert target_text.startswith(generated_text.replace("<bos>", ""))
+        assert target_text.startswith(generated_text)
