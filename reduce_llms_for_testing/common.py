@@ -1,7 +1,8 @@
 import os
+import shutil
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from huggingface_hub import HfApi, hf_hub_download
-import shutil
+from pathlib import Path
 
 HF_TOKEN = os.environ.get("HF_TOKEN")
 SUPPORTED_ARCHS = {
@@ -30,9 +31,9 @@ def get_model(model_name, get_tokenizer=True, attn_implementation="eager"):
 
 def get_data(use_lora, tokenizer, return_text=False):
     if not use_lora:
-        data_path = "data/shakespeare.txt"
+        data_path = "data/pale_blue_dot.txt"
     else:
-        data_path = "data/bohemian_rapshody.txt"
+        data_path = "data/bohemian_rhapsody.txt"
 
     with open(data_path, "r") as f:
         content = f.read()
@@ -92,6 +93,9 @@ def upload_to_hf(
     # Upload the LoRA model files
     lora_hf_folder = get_hf_base_folder(model_reduced_trained_lora_path)
     upload_folder_to_hf(model_reduced_trained_lora_path, lora_hf_folder)
+
+    # Upload data
+    upload_folder_to_hf(str(Path(__file__).parent.parent / "data"), "data")
 
     print("All files uploaded successfully!")
 
