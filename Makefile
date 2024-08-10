@@ -1,5 +1,5 @@
 .SILENT:
-.PHONY:
+.PHONY: setup lint run
 
 HF_REPO ?= ltoniazzi/reduce-llms-for-testing
 
