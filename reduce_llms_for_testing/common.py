@@ -31,9 +31,9 @@ def get_model(model_name, get_tokenizer=True, attn_implementation="eager"):
 
 def get_data(use_lora, tokenizer, return_text=False):
     if not use_lora:
-        data_path = "data/shakespeare.txt"
+        data_path = "data/pale_blue_dot.txt"
     else:
-        data_path = "data/bohemian_rapshody.txt"
+        data_path = "data/bohemian_rhapsody.txt"
 
     with open(data_path, "r") as f:
         content = f.read()
