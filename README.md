@@ -5,7 +5,7 @@ This is to get a lightweight version of the same architecture, for testing.
 
 - Run with:
     ```bash
-    make run HF_REPO=`<your hf model repo>
+    make run HF_REPO=<your hf model repo>
     ```
 
 <br>
