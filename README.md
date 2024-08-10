@@ -1,6 +1,6 @@
 # Reduce LLMs size for testing
 
-This repo takes an LLM, changes the size of it's matrices, and then overfits it to some text.
+This repo takes an LLM, changes the size of its matrices, and then overfits it to some text.
 This is to get a lightweight version of the same architecture, for testing.
 
 - Run with:
