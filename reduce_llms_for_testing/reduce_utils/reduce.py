@@ -1,6 +1,7 @@
 from reduce_llms_for_testing.reduce_utils.models_utils import (
     modify_model_to_nxn_gemma_2,
     modify_model_to_nxn_llama_3,
+    modify_model_to_nxn_phi_3,
 )
 from reduce_llms_for_testing.common import SUPPORTED_ARCHS
 
@@ -17,6 +18,10 @@ def modify_model_to_nxn(model, tokenizer, size, output):
         )
     elif model_id == "LlamaForCausalLM":
         model_reduced = modify_model_to_nxn_llama_3(
+            model, vocab_size=len(tokenizer), size=size
+        )
+    elif model_id == "Phi3ForCausalLM":
+        model_reduced = modify_model_to_nxn_phi_3(
             model, vocab_size=len(tokenizer), size=size
         )
     else:

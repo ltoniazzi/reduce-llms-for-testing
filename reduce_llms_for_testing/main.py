@@ -58,7 +58,7 @@ if __name__ == "__main__":
         "--model-name",
         dest="model_name",
         type=str,
-        default="meta-llama/Meta-Llama-3-8B-Instruct",
+        default="microsoft/Phi-3-mini-4k-instruct",
     )
     parser.add_argument(
         "-s",
