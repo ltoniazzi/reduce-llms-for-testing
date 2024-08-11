@@ -12,7 +12,8 @@ def update_config(model, size_matrices):
 
 
 # Function to modify the model architecture
-def modify_model_to_nxn(model, vocab_size, size):
+def modify_model_to_nxn(model, size):
+    vocab_size = model.model.embed_tokens.weight.shape[0]
     small_weight_tensor = torch.randn(size)
     # Modify the input embedding layer
     # model.model.embed_tokens = nn.Linear(size, vocab_size bias=False)
