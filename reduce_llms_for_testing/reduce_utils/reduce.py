@@ -21,9 +21,7 @@ def modify_model_to_nxn(model, tokenizer, size, output):
             model, vocab_size=len(tokenizer), size=size
         )
     elif model_id == "Phi3ForCausalLM":
-        model_reduced = modify_model_to_nxn_phi_3(
-            model, vocab_size=len(tokenizer), size=size
-        )
+        model_reduced = modify_model_to_nxn_phi_3(model, size=size)
     else:
         raise ValueError(f"{model_id=} not valid. Must be in {SUPPORTED_ARCHS}")
 

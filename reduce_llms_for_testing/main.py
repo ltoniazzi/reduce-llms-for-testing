@@ -79,7 +79,7 @@ if __name__ == "__main__":
         "--max_steps",
         dest="max_steps",
         type=int,
-        default=500,
+        default=700,
     )
     parser.add_argument(
         "-hf",
