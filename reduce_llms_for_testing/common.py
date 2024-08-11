@@ -8,6 +8,7 @@ HF_TOKEN = os.environ.get("HF_TOKEN")
 SUPPORTED_ARCHS = {
     "Gemma2ForCausalLM": "google/gemma-2-2b",
     "LlamaForCausalLM": "meta-llama/Meta-Llama-3-8B-Instruct",
+    "Phi3ForCausalLM": "microsoft/Phi-3-mini-4k-instruct",
 }
 
 
