@@ -24,8 +24,9 @@ This is to get a lightweight version of the same architecture, for testing.
 
     |Model|HF repo|
     |---|---|
-    |Gemma-2-2b| `google/gemma-2-2b`|
+    |Phi-3-mini-4k-instruct| `microsoft/Phi-3-mini-4k-instruct`|
     |Llama-3-8b-intstruct| `meta-llama/Meta-Llama-3-8B-Instruct`|
+    |Gemma-2-2b| `google/gemma-2-2b`|
 
 
 <br>

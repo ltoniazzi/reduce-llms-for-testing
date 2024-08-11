@@ -58,7 +58,7 @@ if __name__ == "__main__":
         "--model-name",
         dest="model_name",
         type=str,
-        default="meta-llama/Meta-Llama-3-8B-Instruct",
+        default="microsoft/Phi-3-mini-4k-instruct",
     )
     parser.add_argument(
         "-s",
@@ -79,7 +79,7 @@ if __name__ == "__main__":
         "--max_steps",
         dest="max_steps",
         type=int,
-        default=500,
+        default=700,
     )
     parser.add_argument(
         "-hf",
