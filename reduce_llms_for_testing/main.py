@@ -1,4 +1,4 @@
-from reduce_llms_for_testing.common import get_model, upload_to_hf
+from reduce_llms_for_testing.common import get_model, upload_to_hf, SUPPORTED_ARCHS
 from reduce_llms_for_testing.train import train
 from reduce_llms_for_testing.infer import test_inference
 from reduce_llms_for_testing.reduce_utils.reduce import modify_model_to_nxn
@@ -12,8 +12,9 @@ def train_reduced_models(
     max_steps,
     hf_repo_id,
     assert_target=True,
+    upload=True,
 ):
-    # Get model
+    # Get original model
     model, tokenizer = get_model(model_name)
 
     # Reduce and save
@@ -40,11 +41,12 @@ def train_reduced_models(
     )
 
     # Upload to HF
-    upload_to_hf(
-        model_reduced_trained_base_path,
-        model_reduced_trained_lora_path,
-        repo_id=hf_repo_id,
-    )
+    if upload:
+        upload_to_hf(
+            model_reduced_trained_base_path,
+            model_reduced_trained_lora_path,
+            repo_id=hf_repo_id,
+        )
 
 
 if __name__ == "__main__":
@@ -58,7 +60,9 @@ if __name__ == "__main__":
         "--model-name",
         dest="model_name",
         type=str,
+        choices=SUPPORTED_ARCHS.values(),
         default="google/gemma-2-2b",
+        # default="microsoft/Phi-3-mini-4k-instruct",
     )
     parser.add_argument(
         "-s",
@@ -87,6 +91,12 @@ if __name__ == "__main__":
         dest="hf_repo_id",
         type=str,
         default="ltoniazzi/reduce-llms-for-testing",
+    )
+    parser.add_argument(
+        "-u",
+        "--upload",
+        dest="upload",
+        action="store_true",
     )
 
     train_reduced_models(**vars(parser.parse_args()))

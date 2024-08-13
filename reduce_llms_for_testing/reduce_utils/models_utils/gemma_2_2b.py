@@ -25,10 +25,10 @@ def modify_model_to_nxn(model, size):
     # Iterate over each layer in the model
     for layer in model.model.layers:
         # Modify self-attention projections
+        layer.self_attn.o_proj.weight = Parameter(torch.randn(size, int(2 * size)))
         layer.self_attn.q_proj.weight = Parameter(torch.randn(int(2 * size), size))
         layer.self_attn.k_proj.weight = Parameter(torch.randn(size, size))
         layer.self_attn.v_proj.weight = Parameter(torch.randn(size, size))
-        layer.self_attn.o_proj.weight = Parameter(torch.randn(size, int(2 * size)))
 
         # Modify MLP layers
         layer.mlp.gate_proj.weight = Parameter(torch.randn(size, size))
