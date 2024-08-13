@@ -1,12 +1,12 @@
 # Reduce LLMs size for testing
 
 This repo takes an LLM, changes the size of its matrices, and then overfits it to some text.
-This is to get a lightweight version of the same architecture, for testing. 
+This is to get a lightweight version of the same architecture, for testing.
 Current reduced models can be found in [this HF repo](https://huggingface.co/ltoniazzi/reduce-llms-for-testing).
 
 - Run with:
     ```bash
-    make run HF_REPO=<your hf model repo>
+    make HF_REPO=<your hf model repo>
     ```
 
 <br>

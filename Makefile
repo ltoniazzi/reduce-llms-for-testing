@@ -3,6 +3,8 @@
 
 HF_REPO ?= ltoniazzi/reduce-llms-for-testing
 
+default: run
+
 setup:
 	poetry install --with dev && \
 	poetry run pre-commit install
