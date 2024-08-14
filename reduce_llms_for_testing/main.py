@@ -7,7 +7,7 @@ from pathlib import Path
 
 def train_reduced_models(
     model_name,
-    size,
+    hidden_size,
     output,
     max_steps,
     hf_repo_id,
@@ -18,11 +18,13 @@ def train_reduced_models(
     model, tokenizer = get_model(model_name)
 
     # Reduce and save
-    model_reduced_path = modify_model_to_nxn(model, tokenizer, size, output=output)
+    model_reduced_path = modify_model_to_nxn(
+        model, tokenizer, hidden_size, output=output
+    )
 
     # Train base
     model_reduced_trained_base_path = train(
-        model_reduced_path, size=size, use_lora=False, max_steps=max_steps
+        model_reduced_path, hidden_size=hidden_size, use_lora=False, max_steps=max_steps
     )
     test_inference(
         model_reduced_trained_base_path,
@@ -32,7 +34,10 @@ def train_reduced_models(
 
     # Finetune lora on trained base
     model_reduced_trained_lora_path = train(
-        model_reduced_trained_base_path, size=size, use_lora=True, max_steps=max_steps
+        model_reduced_trained_base_path,
+        hidden_size=hidden_size,
+        use_lora=True,
+        max_steps=max_steps,
     )
     test_inference(
         model_reduced_trained_base_path,
@@ -67,7 +72,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-s",
         "--size",
-        dest="size",
+        dest="hidden_size",
         type=int,
         default=64,
     )
@@ -83,7 +88,7 @@ if __name__ == "__main__":
         "--max_steps",
         dest="max_steps",
         type=int,
-        default=700,
+        default=500,
     )
     parser.add_argument(
         "-hf",

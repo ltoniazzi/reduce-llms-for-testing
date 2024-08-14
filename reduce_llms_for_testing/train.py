@@ -11,8 +11,8 @@ from reduce_llms_for_testing.common import (
 )
 
 
-def get_peft_model_util(model, size):
-    rank = int(size / 2)
+def get_peft_model_util(model, hidden_size):
+    rank = int(hidden_size / 2)
     config = LoraConfig(
         r=rank,
         lora_alpha=rank * 2,
@@ -34,12 +34,12 @@ def get_peft_model_util(model, size):
     return model
 
 
-def train(model_path, size, use_lora=True, max_steps=200):
+def train(model_path, hidden_size, use_lora=True, max_steps=200):
     model, tokenizer = get_model(model_path)
     model.gradient_checkpointing_enable()
 
     if use_lora:
-        model = get_peft_model_util(model, size)
+        model = get_peft_model_util(model, hidden_size)
 
     if use_lora:
         output_dir = model_path.replace("base", "lora")

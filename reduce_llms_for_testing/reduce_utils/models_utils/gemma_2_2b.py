@@ -3,31 +3,35 @@ from torch.nn import Parameter
 
 
 # Modify the configuration to reflect the new dimensions
-def update_config(model, hidden_size, head_dim):
+def update_config(model, hidden_size, head_dim, intermediate_size):
     config = model.config
     config.hidden_size = hidden_size
-    config.intermediate_size = hidden_size * 4
+    config.intermediate_size = intermediate_size
     config.head_dim = head_dim
+    config.query_pre_attn_scalar = int(hidden_size / config.num_attention_heads)
 
 
-# Function to modify the model architecture
 def modify_model_to_nxn(model, hidden_size):
+    # https://github.com/google-deepmind/gemma
     vocab_size = model.model.embed_tokens.weight.shape[0]
     small_weight_tensor = torch.randn(hidden_size)
     # Modify the input embedding layer
     model.model.embed_tokens.weight = Parameter(torch.randn((vocab_size, hidden_size)))
-    model.model.norm.weight = Parameter(small_weight_tensor.clone())
 
     # Iterate over each layer in the model
     for layer in model.model.layers:
+        print(f"Layer modules:\n{[mod for mod in layer.modules()]}")
         # layer.self_attn.num_heads == 8
         layer.self_attn.head_dim = (
-            256  # int(hidden_size / 8)  # 256 where 8*256=2048 != hidden_size = 2304
+            int(256 / 16)  # 256 where 8*256=2048 (!= hidden_size = 2304)
         )
         layer.self_attn.num_key_value_heads = layer.self_attn.num_heads
-
         head_tot_dim = layer.self_attn.num_heads * layer.self_attn.head_dim
         grouped_head_tot_dim = int(head_tot_dim / layer.self_attn.num_key_value_groups)
+        layer.self_attn.config.query_pre_attn_scalar = int(
+            hidden_size / layer.self_attn.num_heads
+        )
+        layer.mlp.intermediate_size = 4 * hidden_size
 
         # Modify self-attention projections
         layer.self_attn.o_proj.weight = Parameter(
@@ -45,13 +49,13 @@ def modify_model_to_nxn(model, hidden_size):
 
         # Modify MLP layers
         layer.mlp.gate_proj.weight = Parameter(
-            torch.randn(4 * hidden_size, hidden_size)
+            torch.randn(layer.mlp.intermediate_size, hidden_size)
         )  # torch.Size([9216, 2304])
         layer.mlp.up_proj.weight = Parameter(
-            torch.randn(4 * hidden_size, hidden_size)
+            torch.randn(layer.mlp.intermediate_size, hidden_size)
         )  # torch.Size([9216, 2304])
         layer.mlp.down_proj.weight = Parameter(
-            torch.randn(hidden_size, 4 * hidden_size)
+            torch.randn(hidden_size, layer.mlp.intermediate_size)
         )  # torch.Size([2304, 9216])
 
         layer.post_attention_layernorm.weight = Parameter(small_weight_tensor.clone())
@@ -60,8 +64,11 @@ def modify_model_to_nxn(model, hidden_size):
         layer.input_layernorm.weight = Parameter(small_weight_tensor.clone())
 
     # Modify the output layer
+    model.model.norm.weight = Parameter(small_weight_tensor.clone())
     model.lm_head.weight = Parameter(torch.randn(vocab_size, hidden_size))
 
-    update_config(model, hidden_size, layer.self_attn.head_dim)
+    update_config(
+        model, hidden_size, layer.self_attn.head_dim, layer.mlp.intermediate_size
+    )
 
     return model
