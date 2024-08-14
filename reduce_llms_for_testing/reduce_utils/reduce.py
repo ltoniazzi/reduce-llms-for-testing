@@ -13,7 +13,7 @@ def modify_model_to_nxn(model, tokenizer, size, output):
     # rest of the architecture
     model_id = model.config.architectures[0]
     if model_id == "Gemma2ForCausalLM":
-        model_reduced = modify_model_to_nxn_gemma_2(model, size=size)
+        model_reduced = modify_model_to_nxn_gemma_2(model, hidden_size=size)
     elif model_id == "LlamaForCausalLM":
         model_reduced = modify_model_to_nxn_llama_3(model, size=size)
     elif model_id == "Phi3ForCausalLM":
