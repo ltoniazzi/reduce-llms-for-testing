@@ -1,24 +1,6 @@
-from transformers import AutoModelForCausalLM
 import torch
 from peft import PeftModel
-import os
 from reduce_llms_for_testing.common import get_model, get_data
-
-
-def merge_and_save_model(model_id, adapter_dir, output_dir):
-    print("Trying to load a Peft model. It might take a while without feedback")
-    base_model = AutoModelForCausalLM.from_pretrained(
-        model_id,
-        # attn_implementation='eager',
-        low_cpu_mem_usage=True,
-    )
-    peft_model = PeftModel.from_pretrained(base_model, adapter_dir)
-    model = peft_model.merge_and_unload()
-
-    os.makedirs(output_dir, exist_ok=True)
-    print(f"Saving the newly created merged model to {output_dir}")
-    model.save_pretrained(output_dir, safe_serialization=True)
-    base_model.config.save_pretrained(output_dir)
 
 
 def test_inference(
@@ -33,8 +15,7 @@ def test_inference(
     model, tokenizer = get_model(model_id)
 
     if lora_path is not None:
-        model = PeftModel.from_pretrained(model, lora_path)
-        # model.model.model.layers[0].mlp.gate_proj.lora_A.default.weight
+        model = PeftModel.from_pretrained(model, lora_path, attn_implementation="eager")
 
     if not input_text:
         target_text = get_data(
@@ -50,7 +31,7 @@ def test_inference(
         output = model.generate(
             inputs["input_ids"],
             max_length=max_length,  # Set the desired length of the output
-            do_sample=True,  # Enable sampling to introduce randomness
+            do_sample=False,  # Do not sample as overfitted model will get confused by new tokens
         )
 
     # Decode the generated text
