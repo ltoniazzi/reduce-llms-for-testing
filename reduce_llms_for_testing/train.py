@@ -10,21 +10,43 @@ from reduce_llms_for_testing.common import (
     SUPPORTED_ARCHS,
 )
 
+MAP_LORA_TARGET_MODULES = {
+    "Gemma2ForCausalLM": [
+        "q_proj",
+        "v_proj",
+        "k_proj",
+        "up_proj",
+        "down_proj",
+        "gate_proj",
+    ],
+    "LlamaForCausalLM": [
+        "q_proj",
+        "v_proj",
+        "k_proj",
+        "up_proj",
+        "down_proj",
+        "gate_proj",
+        "lm_head",
+    ],
+    "Phi3ForCausalLM": [
+        "q_proj",
+        "v_proj",
+        "k_proj",
+        "up_proj",
+        "down_proj",
+        "gate_proj",
+        "lm_head",
+    ],
+}
+
 
 def get_peft_model_util(model, hidden_size):
+    arch = model.config.architectures[0]
     rank = int(hidden_size / 2)
     config = LoraConfig(
         r=rank,
         lora_alpha=rank * 2,
-        target_modules=[
-            "q_proj",
-            "v_proj",
-            "k_proj",
-            "up_proj",
-            "down_proj",
-            "gate_proj",
-            "lm_head",
-        ],
+        target_modules=MAP_LORA_TARGET_MODULES[arch],
         bias="none",
         lora_dropout=0.05,
         task_type="CAUSAL_LM",
