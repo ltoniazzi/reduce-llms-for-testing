@@ -32,6 +32,12 @@ Current reduced models can be found in [this HF repo](https://huggingface.co/lto
 
 <br>
 
+## HuggingFace access
+
+Via a [user write access token](https://huggingface.co/docs/hub/en/security-tokens) to be set as the environment variable `HF_TOKEN`.
+
+<br>
+
 ## Development
 
 - Environment ([`poetry` required](https://python-poetry.org/docs/)):
@@ -43,8 +49,3 @@ Current reduced models can be found in [this HF repo](https://huggingface.co/lto
     ```bash
     pytohn reduce_llms_for_testing/main.py -m "<model-name>" -hf "<your hf model repo>"
     ```
-
-
-## HuggingFace access
-
-Via a [user write access token](https://huggingface.co/docs/hub/en/security-tokens) to be set as the environment variable `HF_TOKEN`.

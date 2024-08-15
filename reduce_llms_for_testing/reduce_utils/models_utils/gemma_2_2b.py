@@ -23,7 +23,7 @@ def modify_model_to_nxn(model, hidden_size):
         print(f"Layer modules:\n{[mod for mod in layer.modules()]}")
         # layer.self_attn.num_heads == 8
         layer.self_attn.head_dim = (
-            int(256 / 16)  # 256 where 8*256=2048 (!= hidden_size = 2304)
+            int(256 / 1)  # 256 where 8*256=2048 (!= hidden_size = 2304)
         )
         layer.self_attn.num_key_value_heads = layer.self_attn.num_heads
         head_tot_dim = layer.self_attn.num_heads * layer.self_attn.head_dim

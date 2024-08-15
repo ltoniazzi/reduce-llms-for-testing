@@ -67,7 +67,6 @@ if __name__ == "__main__":
         type=str,
         choices=SUPPORTED_ARCHS.values(),
         default="google/gemma-2-2b",
-        # default="microsoft/Phi-3-mini-4k-instruct",
     )
     parser.add_argument(
         "-s",
@@ -88,7 +87,7 @@ if __name__ == "__main__":
         "--max_steps",
         dest="max_steps",
         type=int,
-        default=500,
+        default=700,
     )
     parser.add_argument(
         "-hf",

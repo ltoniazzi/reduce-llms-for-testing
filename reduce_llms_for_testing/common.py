@@ -85,7 +85,7 @@ def upload_to_hf(
         base_folder = os.path.join(
             os.path.basename(os.path.dirname(local_path)), local_path.split("/")[-1]
         )
-        return base_folder.replace("_size", "/size")
+        return base_folder.replace("_hidden_size", "/hidden_size")
 
     # Upload the base model files
     base_hf_folder = get_hf_base_folder(model_reduced_trained_base_path)
