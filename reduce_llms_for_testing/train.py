@@ -8,36 +8,8 @@ from reduce_llms_for_testing.common import (
     download_tokenizer_model,
     HF_TOKEN,
     SUPPORTED_ARCHS,
+    MAP_LORA_TARGET_MODULES,
 )
-
-MAP_LORA_TARGET_MODULES = {
-    "Gemma2ForCausalLM": [
-        "q_proj",
-        "v_proj",
-        "k_proj",
-        "up_proj",
-        "down_proj",
-        "gate_proj",
-    ],
-    "LlamaForCausalLM": [
-        "q_proj",
-        "v_proj",
-        "k_proj",
-        "up_proj",
-        "down_proj",
-        "gate_proj",
-        "lm_head",
-    ],
-    "Phi3ForCausalLM": [
-        "q_proj",
-        "v_proj",
-        "k_proj",
-        "up_proj",
-        "down_proj",
-        "gate_proj",
-        "lm_head",
-    ],
-}
 
 
 def get_peft_model_util(model, hidden_size):

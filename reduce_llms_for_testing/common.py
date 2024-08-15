@@ -10,6 +10,34 @@ SUPPORTED_ARCHS = {
     "LlamaForCausalLM": "meta-llama/Meta-Llama-3-8B-Instruct",
     "Phi3ForCausalLM": "microsoft/Phi-3-mini-4k-instruct",
 }
+MAP_LORA_TARGET_MODULES = {
+    "Gemma2ForCausalLM": [
+        "q_proj",
+        "v_proj",
+        "k_proj",
+        "up_proj",
+        "down_proj",
+        "gate_proj",
+    ],
+    "LlamaForCausalLM": [
+        "q_proj",
+        "v_proj",
+        "k_proj",
+        "up_proj",
+        "down_proj",
+        "gate_proj",
+        "lm_head",
+    ],
+    "Phi3ForCausalLM": [
+        "q_proj",
+        "v_proj",
+        "k_proj",
+        "up_proj",
+        "down_proj",
+        "gate_proj",
+        "lm_head",
+    ],
+}
 
 
 def get_model(model_name, get_tokenizer=True, attn_implementation="eager"):
