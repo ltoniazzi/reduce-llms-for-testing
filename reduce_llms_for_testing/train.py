@@ -8,23 +8,17 @@ from reduce_llms_for_testing.common import (
     download_tokenizer_model,
     HF_TOKEN,
     SUPPORTED_ARCHS,
+    MAP_LORA_TARGET_MODULES,
 )
 
 
-def get_peft_model_util(model, size):
-    rank = int(size / 2)
+def get_peft_model_util(model, hidden_size):
+    arch = model.config.architectures[0]
+    rank = int(hidden_size / 2)
     config = LoraConfig(
         r=rank,
         lora_alpha=rank * 2,
-        target_modules=[
-            "q_proj",
-            "v_proj",
-            "k_proj",
-            "up_proj",
-            "down_proj",
-            "gate_proj",
-            "lm_head",
-        ],
+        target_modules=MAP_LORA_TARGET_MODULES[arch],
         bias="none",
         lora_dropout=0.05,
         task_type="CAUSAL_LM",
@@ -34,12 +28,12 @@ def get_peft_model_util(model, size):
     return model
 
 
-def train(model_path, size, use_lora=True, max_steps=200):
+def train(model_path, hidden_size, use_lora=True, max_steps=200):
     model, tokenizer = get_model(model_path)
     model.gradient_checkpointing_enable()
 
     if use_lora:
-        model = get_peft_model_util(model, size)
+        model = get_peft_model_util(model, hidden_size)
 
     if use_lora:
         output_dir = model_path.replace("base", "lora")
