@@ -3,10 +3,12 @@ from torch.nn import Parameter
 
 
 # Modify the configuration to reflect the new dimensions
-def update_config(model, hidden_size):
+def update_config(model, hidden_size, num_attention_heads, num_key_value_heads):
     config = model.config
     config.hidden_size = hidden_size
     config.intermediate_size = hidden_size
+    config.num_attention_heads = num_attention_heads
+    config.num_key_value_heads = num_key_value_heads
 
 
 # Function to modify the model architecture
@@ -46,6 +48,11 @@ def modify_model_to_nxn(model, hidden_size):
     # Modify the output layer
     model.lm_head.weight = Parameter(torch.randn(vocab_size, hidden_size))
 
-    update_config(model, hidden_size)
+    update_config(
+        model,
+        hidden_size,
+        layer.self_attn.num_heads,
+        layer.self_attn.num_key_value_heads,
+    )
 
     return model

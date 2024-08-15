@@ -66,7 +66,7 @@ if __name__ == "__main__":
         dest="model_name",
         type=str,
         choices=SUPPORTED_ARCHS.values(),
-        default="google/gemma-2-2b",
+        default="microsoft/Phi-3-mini-4k-instruct",
     )
     parser.add_argument(
         "-s",
