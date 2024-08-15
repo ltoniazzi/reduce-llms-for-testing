@@ -15,8 +15,9 @@ def modify_model_to_nxn(model, hidden_size):
     # https://github.com/google-deepmind/gemma
     vocab_size = model.model.embed_tokens.weight.shape[0]
     small_weight_tensor = torch.randn(hidden_size)
-    # Modify the input embedding layer
-    model.model.embed_tokens.weight = Parameter(torch.randn((vocab_size, hidden_size)))
+    # Modify the input embedding layer (which equals the output layer!)
+    input_and_output = Parameter(torch.randn((vocab_size, hidden_size)))
+    model.model.embed_tokens.weight = input_and_output
 
     # Iterate over each layer in the model
     for layer in model.model.layers:
@@ -64,7 +65,7 @@ def modify_model_to_nxn(model, hidden_size):
 
     # Modify the output layer
     model.model.norm.weight = Parameter(small_weight_tensor.clone())
-    model.lm_head.weight = Parameter(torch.randn(vocab_size, hidden_size))
+    model.lm_head.weight = input_and_output
 
     update_config(
         model, hidden_size, layer.self_attn.head_dim, layer.mlp.intermediate_size
