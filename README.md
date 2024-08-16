@@ -5,7 +5,7 @@ This is done to get a lightweight version of the same architecture, for testing.
 
 - Reduced models can be found in [this HF ggml-org repo](https://huggingface.co/ggml-org/lora-tests). Currently supported LLMs:
 
-    |Architecture|HF repo|hidden size|base MB|lora MB|
+    |Architecture|HF repo|hidden size|base (MB)|lora (MB)|
     |---|---|---|---|---|
     |`Phi3ForCausalLM`| `microsoft/Phi-3-mini-4k-instruct`|64|20|12|
     |`LlamaForCausalLM`| `meta-llama/Meta-Llama-3-8B-Instruct`|64|68|52|
