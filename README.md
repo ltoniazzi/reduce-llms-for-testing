@@ -24,11 +24,11 @@ This is done to get a lightweight version of the same architecture, for testing.
 
 - Currently supported LLMs:
 
-    |Model|HF repo|
-    |---|---|
-    |Phi-3-mini-4k-instruct| `microsoft/Phi-3-mini-4k-instruct`|
-    |Llama-3-8b-intstruct| `meta-llama/Meta-Llama-3-8B-Instruct`|
-    |Gemma-2-2b| `google/gemma-2-2b`|
+    |Arch|HF repo|hidden size|base MB|lora MB|
+    |---|---|---|---|---|
+    |`Phi3ForCausalLM`| `microsoft/Phi-3-mini-4k-instruct`|64|20|12|
+    |`LlamaForCausalLM`| `meta-llama/Meta-Llama-3-8B-Instruct`|64|68|52|
+    |`Gemma2ForCausalLM`| `google/gemma-2-2b`|64|77|5|
 
 
 <br>
