@@ -1,6 +1,6 @@
 # Reduce LLMs size for testing
 
-Takes an LLM, change the size of its matrices, and then overfit it to some text.
+Take an LLM, change the size of its matrices, and then overfit it to some text.
 This is done to get a lightweight version of the same architecture, for testing.
 
 - Current reduced models can be found in [this HF ggml-org repo](https://huggingface.co/ggml-org/lora-tests).
