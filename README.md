@@ -1,9 +1,18 @@
 # Reduce LLMs size for testing
 
-Take an LLM, change the size of its matrices, and then overfit it to some text.
+Take an LLM, reduce the `hidden_size` for its matrices, and then overfit it to some text.
 This is done to get a lightweight version of the same architecture, for testing.
 
-- Current reduced models can be found in [this HF ggml-org repo](https://huggingface.co/ggml-org/lora-tests).
+- Reduced models can be found in [this HF ggml-org repo](https://huggingface.co/ggml-org/lora-tests). Currently supported LLMs:
+
+    |Architecture|HF repo|hidden size|base MB|lora MB|
+    |---|---|---|---|---|
+    |`Phi3ForCausalLM`| `microsoft/Phi-3-mini-4k-instruct`|64|20|12|
+    |`LlamaForCausalLM`| `meta-llama/Meta-Llama-3-8B-Instruct`|64|68|52|
+    |`Gemma2ForCausalLM`| `google/gemma-2-2b`|64|77|5|
+
+
+<br>
 
 - Run with:
     ```bash
@@ -22,16 +31,6 @@ This is done to get a lightweight version of the same architecture, for testing.
 
 <br>
 
-- Currently supported LLMs:
-
-    |Arch|HF repo|hidden size|base MB|lora MB|
-    |---|---|---|---|---|
-    |`Phi3ForCausalLM`| `microsoft/Phi-3-mini-4k-instruct`|64|20|12|
-    |`LlamaForCausalLM`| `meta-llama/Meta-Llama-3-8B-Instruct`|64|68|52|
-    |`Gemma2ForCausalLM`| `google/gemma-2-2b`|64|77|5|
-
-
-<br>
 
 ## HuggingFace access
 
