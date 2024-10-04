@@ -47,5 +47,5 @@ Via a [user write access token](https://huggingface.co/docs/hub/en/security-toke
 
 - To run the full script for a specific model run:
     ```bash
-    pytohn reduce_llms_for_testing/main.py -m "<model-name>" -hf "<your hf model repo>"
+    python reduce_llms_for_testing/main.py -m "<model-name>" -hf "<your hf model repo>"
     ```
