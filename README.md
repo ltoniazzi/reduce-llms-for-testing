@@ -31,14 +31,21 @@ This is done to get a lightweight version of the same architecture, for testing.
 
 <br>
 
+## Use in Llama.cpp
 
-## HuggingFace access
+- This repo generated the test models in the [lora-tests HF GGML repo](https://huggingface.co/ggml-org/lora-tests).
+- Tests runs in [llama.cpp/tests/test-lora-conversion-inference.sh](https://github.com/ggml-org/llama.cpp/blob/master/tests/test-lora-conversion-inference.sh).
+
+
+## Setup
+
+### HuggingFace access
 
 Via a [user write access token](https://huggingface.co/docs/hub/en/security-tokens) to be set as the environment variable `HF_TOKEN`.
 
 <br>
 
-## Development
+### Development
 
 - Environment ([`poetry` required](https://python-poetry.org/docs/)):
     ```bash
